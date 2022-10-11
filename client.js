@@ -1,6 +1,8 @@
 const dgram = require('dgram');
 const client = dgram.createSocket('udp4');
 
+
+// Opgave 2:
 // DigitalOcean droplet i Frankfurt, Amsterdam, Singapore og San Francisco
 // const PORT = 6790;
 // const HOSTS = ['134.209.234.180', '167.172.32.197', '139.59.228.134', '161.35.224.80'];
