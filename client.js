@@ -13,7 +13,7 @@ const client = dgram.createSocket('udp4');
 var timestamp = Date.now();
 
 
-// client.send bruger callback (kedeeeligt), så vi konvertere den til promise for at kunne bruge async / await 
+// client.send bruger callback (kedeligt), så vi konvertere den til promise for at kunne bruge async / await 
 function sendMessage(message, port, host) {
     return new Promise((resolve, reject) => {
         client.send(message, 0, message.length, port, host, (error, bytes) => {
@@ -26,16 +26,19 @@ function sendMessage(message, port, host) {
 }
 
 
-// Lytter til svar fra serveren
-client.on('message', function (incommingMessage, remote) {
-    console.log('Received', incommingMessage.toString());
-});
-
-
-const message = 'ping'
 // Sender en besked til serveren
+const message = 'ping'
 sendMessage(message, 6790, '0.0.0.0').then(() => {
     timestamp = Date.now();
     console.log('sent', message, 'at time', timestamp);
 })
 
+
+
+// Lytter til svar fra serveren
+client.on('message', function (incommingMessage, remote) {
+    console.log('Received', incommingMessage.toString());
+
+    // Opgave 1: Udregn svartiden fra serveren ved brug af Date.now()
+    // ...
+});
