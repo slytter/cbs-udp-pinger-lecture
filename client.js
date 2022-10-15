@@ -2,11 +2,6 @@ const dgram = require('dgram');
 const client = dgram.createSocket('udp4');
 
 
-// Opgave 2:
-// DigitalOcean droplet i Frankfurt, Amsterdam, Singapore og San Francisco
-
-
-
 // Date.now() returner et UNIX timestamp (antal millisekunder siden 1. Januar 1970)
 var timestamp = 0
 
@@ -18,6 +13,8 @@ const asyncTimeout = async (time) => {
         }, time)
     })
 }
+
+
 
 // client.send bruger callback (kedeligt), så vi konvertere den til promise for at kunne bruge async / await 
 function sendMessage(message, port, host) {
@@ -33,13 +30,16 @@ function sendMessage(message, port, host) {
 
 
 
+
 const PORT = 6790;
 const HOSTS = ['134.209.234.180', '167.172.32.197', '139.59.228.134', '161.35.224.80'];
+
+
 
 function opgave1 (serverAdress) {
     // Sender en besked til serveren
     const message = 'ping'
-    sendMessage(message, 6790, serverAdress).then(() => { 
+    sendMessage(message, PORT, serverAdress).then(() => { 
         timestamp = Date.now();
         console.log('sent', message, 'at time', timestamp);
     })
@@ -54,6 +54,10 @@ function opgave1 (serverAdress) {
         console.log('Round trip time:', roundTripTime, 'ms');
     });
 }
+
+
+
+
 
 // Opgave 1 del 2 - Send 10 requests og udregn gennemsnits svartiden
 async function opgave1Del2 (serverAdress, amount = 10, delay = 500) {
@@ -83,7 +87,7 @@ async function opgave1Del2 (serverAdress, amount = 10, delay = 500) {
 
     for (let i = 0; i < amount; i++) {
         await asyncTimeout(delay)
-        await sendMessage(message, 6790, serverAdress).then(() => { 
+        await sendMessage(message, PORT, serverAdress).then(() => { 
             timestamp = Date.now();
             sendTimeStamps.push(timestamp);
             console.log('sent', message, 'at time', timestamp);
@@ -92,13 +96,15 @@ async function opgave1Del2 (serverAdress, amount = 10, delay = 500) {
 }
 
 
+
+
 function opgave2 (serverAdress = []) {
     // Sender en besked til serveren
     const message = 'ping'
 
 
     for (let i = 0; i < serverAdress.length; i++) {
-        sendMessage(message, 6790, serverAdress[i]).then(() => { 
+        sendMessage(message, PORT, serverAdress[i]).then(() => { 
             timestamp = Date.now();
             console.log('sent', message, 'at time', timestamp);
         })
@@ -115,8 +121,8 @@ function opgave2 (serverAdress = []) {
     });
 }
 
-// opgave1('0.0.0.0')
+opgave1('0.0.0.0')
 // opgave1Del2('0.0.0.0', 10, 1000)
-opgave2(HOSTS)
+// opgave2(HOSTS)
 
 
